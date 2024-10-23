@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 22:17:49 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 21:37:15 by pjedrycz         ###   ########.fr       */
+/*   Created: 2024/10/23 19:04:21 by pjedrycz          #+#    #+#             */
+/*   Updated: 2024/10/23 19:05:00 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,45 @@ static bool	start_sim(t_table *table)
 	while (i < table->nb_philos)
 	{
 		if (pthread_create(&table->philos[i]->thread, NULL,
-			&philosopher, /////////////////////))
+				&philosopher, table->philos[i]) != 0)
+			return (error_failure(STR_ERR_THREAD, NULL, table));
+		i++;
 	}
+	if (table->nb_philos > 1)
+	{
+		if (pthread_create(&table->philo_control, NULL,
+				&philo_control, table) != 0)
+			return (error_failure(STR_ERR_THREAD, NULL, table));
+	}
+	return (true);
 }
 
+/*
+	Waits for all threads to be joined then destroys mutexes and frees
+	allocated memory.
+*/
+static void stop_sim(t_table *table)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < table->nb_philos)
+	{
+		pthread_join(table->philos[i]->thread, NULL);
+		i++;
+	}
+	if (table->nb_philos > 1)
+		pthread_join(table->philo_control, NULL);
+	if (DEBUG_FORMATTING == true && table->meals_cnt != -1)
+		write_outcome(table);
+	destroy_mutexes(table);
+	free_table(table);
+}
+
+/*
+	Main function to init all the elements, start the simulation
+	and stop it in right moment.
+*/
 int main(int argc, char **argv)
 {
 	t_table	*table;
@@ -37,10 +72,13 @@ int main(int argc, char **argv)
 	table = NULL;
 	if (argc -1 < 4 || argc - 1 > 5)
 		return (msg(STR_USAGE, NULL, EXIT_FAILURE));
-	if (!is_vlid_input(argc, argv))
+	if (!is_valid_input(argc, argv))
 		return (EXIT_FAILURE);
 	table = init_table(argc, argv, 1);
 	if (!table)
 		return (EXIT_FAILURE);
-	//////////if (!start_simulation(table))
+	if (!start_sim(table))
+		return (EXIT_FAILURE);
+	stop_sim(table);
+	return (EXIT_SUCCESS);
 }

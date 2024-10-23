@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:17:29 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 22:45:40 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:29:28 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ bool	is_valid_input(int argc, char **argv);
 t_table	*init_table(int argc, char **argv, int i);
 
 // Routines
-
+void	*philosopher(void *data);
 
 // Time
 time_t	get_time_in_ms(void);
@@ -115,6 +115,7 @@ void	write_outcome(t_table *table);
 
 // Philo control
 bool	has_sim_stopped(t_table *table);
+void	*philo_control(void *data);
 
 // Exit
 void	*free_table(t_table *table);

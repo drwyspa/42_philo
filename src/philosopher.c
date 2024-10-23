@@ -6,11 +6,69 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:37:50 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 21:52:08 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:11:33 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*
+	When a philosopher is ready to eat, he will wait for his fork mutexes to
+	be unlocked before locking them. Then the philosopher will eat for a certain
+	amount of time. The time of the last meal is recorded at the beginning of
+	the meal, not at the end, as per the subject's requirements.
+*/
+static void	eat_sleep_routine(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->fork_locks[philo->fork[0]]);
+	write_status(philo, false, GOT_FORK_1);
+	pthread_mutex_lock(&philo->table->fork_locks[philo->fork[1]]);
+	write_status(philo, false, GOT_FORK_2);
+	write_status(philo, false, EATING);
+	pthread_mutex_lock(&philo->meal_time_lock);
+	philo->last_meal = get_time_in_ms();
+	pthread_mutex_unlock(&philo->meal_time_lock);
+	philo_sleep(philo->table, philo->table->time_to_eat);
+	if (has_sim_stopped(philo->table) == false)
+	{
+		pthread_mutex_lock(&philo->meal_time_lock);
+		philo->times_eat += 1;
+		pthread_mutex_unlock(&philo->meal_time_lock);
+	}
+	write_status(philo, false, SLEEPING);
+	pthread_mutex_unlock(&philo->table->fork_locks[philo->fork[1]]);
+	pthread_mutex_unlock(&philo->table->fork_locks[philo->fork[0]]);
+	philo_sleep(philo->table, philo->table->time_to_sleep);
+}
+
+/*
+	Once a philosopher is done sleeping, he will think for a certain
+	amount of time before starting to eat again.
+	The time_to_think is calculated depending on how long it has been
+	since the philosopher's last meal, the time_to_eat and the time_to_die
+	to determine when the philosopher will be hungry again.
+	This helps stagger philosopher's eating routines to avoid forks being
+	needlessly monopolized by one philosopher to the detriment of others.
+*/
+static void	think_routine(t_philo *philo, bool silent)
+{
+	time_t	time_to_think;
+
+	pthread_mutex_lock(&philo->meal_time_lock);
+	time_to_think = (philo->table->time_to_die
+			- (get_time_in_ms() - philo->last_meal)
+			- philo->table->time_to_eat) / 2;
+	pthread_mutex_unlock(&philo->meal_time_lock);
+	if (time_to_think < 0)
+		time_to_think = 0;
+	if (time_to_think == 0 && silent == true)
+		time_to_think = 1;
+	if (time_to_think > 600)
+		time_to_think = 200;
+	if (silent == false)
+		write_status(philo, false, THINKING);
+	philo_sleep(philo->table, time_to_think)
+}
 
 /*
 	For only one philosopher.
@@ -22,7 +80,11 @@
 static void	*one_philo_routine(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->fork_locks[philo->fork[0]]);
-	write_status(philo, false, GOT_FORK_1);////////////
+	write_status(philo, false, GOT_FORK_1);
+	philo_sleep(philo->table, philo->table->time_to_die);
+	write_status(philo, false, DIED);
+	pthread_mutex_unlock(&philo->table->fork_locks[philo->fork[0]]);
+	return (NULL);
 }
 
 /*
@@ -46,5 +108,13 @@ void	*philosopher(void *data)
 	if (philo->table->time_to_die == 0)
 		return (NULL);
 	if (philo->table->nb_philos == 1)
-		return (one_philo_routine(philo));////////////
+		return (one_philo_routine(philo));
+	else if (philo->id % 2)
+		think_routine(philo, true);
+	while (has_sim_stopped(philo->table) == false)
+	{
+		eat_sleep_routine(philo);
+		think_routine(philo, false);
+	}
+	return (NULL);
 }
