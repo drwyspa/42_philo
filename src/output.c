@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:53:06 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 22:43:53 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:35:55 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	print_status_debug(t_philo *philo, char *color,
 
 /*
 	If debug mode is on (DEBUG_FORMATTING == 1 in philo.h)
-	refirects status writing for this mode.
+	redirects status writing for this mode.
 */
 static void	write_status_debug(t_philo *philo, t_status status)
 {

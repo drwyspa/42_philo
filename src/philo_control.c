@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:20:17 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/23 19:03:01 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:47:29 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	*philo_control(void *data)
 	sim_start_delay(table->start_time);
 	while (true)
 	{
-		if (end_condition_reachec(table) == true)
+		if (end_condition_reached(table) == true)
 			return (NULL);
 		usleep(1000);
 	}

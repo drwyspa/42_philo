@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:36:23 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 18:50:14 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:46:33 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ static t_philo	**init_philos(t_table *table)
 		assign_forks(philos[i]);
 		i++;
 	}
+	return (philos);
 }
 
 /*

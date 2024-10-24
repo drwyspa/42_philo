@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:17:29 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/23 18:29:28 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:45:38 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,7 @@
 
 // Structures //
 
-typedef struct s_philo
-{
-	pthread_t		thread;
-	unsigned int	id;
-	unsigned int	times_eat;
-	unsigned int	fork[2];
-	pthread_mutex_t	meal_time_lock;
-	time_t			last_meal;
-	t_table			*table;
-} t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
@@ -76,6 +67,17 @@ typedef struct s_table
 	pthread_mutex_t	*fork_locks;
 	t_philo			**philos;
 } t_table;
+
+typedef struct s_philo
+{
+	pthread_t		thread;
+	unsigned int	id;
+	unsigned int	times_eat;
+	unsigned int	fork[2];
+	pthread_mutex_t	meal_time_lock;
+	time_t			last_meal;
+	t_table			*table;
+} t_philo;
 
 //Do I need values here?
 //By default, first one is 0.

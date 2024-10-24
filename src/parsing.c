@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:10:04 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/17 22:29:05 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:38:29 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int	atoi_int(char *str)
 		nb = (nb * 10) + (str[i] - 48);
 		i++;
 	}
+	if (nb > INT_MAX)
+		return (-1);
+	return ((int)nb);
 }
 
 /* 

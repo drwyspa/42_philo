@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:37:50 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/23 18:11:33 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:42:24 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	think_routine(t_philo *philo, bool silent)
 		time_to_think = 200;
 	if (silent == false)
 		write_status(philo, false, THINKING);
-	philo_sleep(philo->table, time_to_think)
+	philo_sleep(philo->table, time_to_think);
 }
 
 /*

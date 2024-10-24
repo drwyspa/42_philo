@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:03:43 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/21 21:19:49 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:33:59 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 /*
 	Frees all the allocated memory.
-	Return a NULL pointer if nothing was allocated or alreade freed.
+	Return a NULL pointer if nothing was allocated or already freed.
 */
 void	*free_table(t_table *table)
 {
 	unsigned int	i;
 
+	i = 0;
 	if (!table)
 		return (NULL);
 	if (table->fork_locks != NULL)
 		free(table->fork_locks);
 	if (table->philos != NULL)
 	{
-		i = 0;//Czy nie powinienem tego zainicjowac na samym poczatku? Leak?
 		while (i < table->nb_philos)
 		{
 			if (table->philos[i] != NULL)
