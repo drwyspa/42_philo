@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:36:23 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/24 21:46:33 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 22:04:18 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,27 @@ static pthread_mutex_t	*init_forks(t_table *table)
 }
 
 /*
-*	Assigns two fork to each philosopher. Even-numbered philosophers
-*	get their fork order switched. This is because the order in which
-*	philosophers take their forks matters.
-*
-*	For example with 3 philos:
-*		Philo #1 (id: 0) will want fork 0 and fork 1
-*		Philo #2 (id: 1) will want fork 1 and fork 2
-*		Philo #3 (id: 2) will want fork 2 and fork 0
-*	If philo #1 takes fork 0, philo #2 takes fork 1 and philo #3 takes fork 2,
-*	there is a deadlock. Each will be waiting for their second fork which is
-*	in use by another philo.
-*
-*	Making even id philos "left-handed" helps:
-*		Philo #1 (id: 0) takes fork 1 and then fork 0
-*		Philo #2 (id: 1) takes fork 1 and then fork 2
-*		Philo #3 (id: 2) takes fork 0 and then fork 2
-*	Now, philo #1 takes fork 1, philo #3 takes fork 0 and philo #2 waits patiently.
-*	Fork 2 is free for philo #3 to take, so he eats. When he is done philo #1 can
-*	take fork 0 and eat. When he is done, philo #2 can finally get fork 1 and eat.
+	Assigns two fork to each philosopher. Even-numbered philosophers
+	get their fork order switched. This is because the order in which
+	philosophers take their forks matters.
+
+	For example with 3 philos:
+		Philo #1 (id: 0) will want fork 0 and fork 1
+		Philo #2 (id: 1) will want fork 1 and fork 2
+		Philo #3 (id: 2) will want fork 2 and fork 0
+	If philo #1 takes fork 0, philo #2 takes fork 1 and philo #3 takes fork 2,
+	there is a deadlock. Each will be waiting for their second fork which is
+	in use by another philo.
+
+	Making even id philos "left-handed" helps:
+		Philo #1 (id: 0) takes fork 1 and then fork 0
+		Philo #2 (id: 1) takes fork 1 and then fork 2
+		Philo #3 (id: 2) takes fork 0 and then fork 2
+	Now, philo #1 takes fork 1, philo #3 takes fork 0 
+	and philo #2 waits patiently.
+	Fork 2 is free for philo #3 to take, so he eats. 
+	When he is done philo #1 can take fork 0 and eat. 
+	When he is done, philo #2 can finally get fork 1 and eat.
 */
 static void	assign_forks(t_philo *philo)
 {
@@ -76,9 +78,9 @@ static t_philo	**init_philos(t_table *table)
 	unsigned int	i;
 
 	philos = malloc(sizeof(t_philo) * table->nb_philos);
+	i = 0;
 	if (!philos)
 		return (error_null(STR_ERR_MALLOC, NULL, 0));
-	i = 0;
 	while (i < table->nb_philos)
 	{
 		philos[i] = malloc(sizeof(t_philo) * 1);
@@ -89,6 +91,7 @@ static t_philo	**init_philos(t_table *table)
 		philos[i]->table = table;
 		philos[i]->id = i;
 		philos[i]->times_eat = 0;
+		philos[i]->last_meal = 0;
 		assign_forks(philos[i]);
 		i++;
 	}

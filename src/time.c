@@ -6,14 +6,15 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:06:43 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/22 21:46:12 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:29:15 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-	Gets the current time in miliseconds - global time since Epoch (1970-01-01 00:00:00).
+	Gets the current time in miliseconds 
+	- global time since Epoch (1970-01-01 00:00:00).
 	Returns the time value, converted in miliseconds.
 */
 time_t	get_time_in_ms(void)
@@ -37,7 +38,7 @@ void	philo_sleep(t_table *table, time_t sleep_time)
 	while (get_time_in_ms() < wake_up)
 	{
 		if (has_sim_stopped(table))
-			break;
+			break ;
 		usleep(100);
 	}
 }
@@ -50,5 +51,5 @@ void	philo_sleep(t_table *table, time_t sleep_time)
 void	sim_start_delay(time_t start_time)
 {
 	while (get_time_in_ms() < start_time)
-		continue;
+		continue ;
 }

@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 22:03:43 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/24 21:33:59 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:30:38 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	error_failure(char *str, char *details, t_table *table)
 		free_table(table);
 	return (msg(str, details, 0));
 }
-
 
 /*
 	Error management for initialization.

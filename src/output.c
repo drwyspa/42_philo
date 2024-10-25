@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:53:06 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/24 21:35:55 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:27:37 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,16 @@ void	write_status(t_philo *philo, bool control_report, t_status status)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
 	if (has_sim_stopped(philo->table) == true
-			&& control_report == false)
+		&& control_report == false)
 	{
 		pthread_mutex_unlock(&philo->table->write_lock);
-		return;
+		return ;
 	}
 	if (DEBUG_FORMATTING == true)
 	{
 		write_status_debug(philo, status);
 		pthread_mutex_unlock(&philo->table->write_lock);
-		return;
+		return ;
 	}
 	if (status == DIED)
 		print_status(philo, "died");
@@ -100,14 +100,14 @@ void	write_status(t_philo *philo, bool control_report, t_status status)
 		print_status(philo, "is thinking");
 	else if (status == GOT_FORK_1 || status == GOT_FORK_2)
 		print_status(philo, "has taken a fork");
-	pthread_mutex_unlock(&philo->table->write_lock);	
+	pthread_mutex_unlock(&philo->table->write_lock);
 }
 
 void	write_outcome(t_table *table)
 {
 	unsigned int	i;
 	unsigned int	full_cnt;
-	
+
 	full_cnt = 0;
 	i = 0;
 	while (i < table->nb_philos)
@@ -120,5 +120,5 @@ void	write_outcome(t_table *table)
 	printf("%d/%d philosophers had at least %d meals.\n",
 		full_cnt, table->nb_philos, table->meals_cnt);
 	pthread_mutex_unlock(&table->write_lock);
-	return;
+	return ;
 }

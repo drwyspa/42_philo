@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 21:20:17 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/24 21:47:29 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:28:41 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ static bool	end_condition_reached(t_table *table)
 			return (true);
 		if (table->meals_cnt != -1)
 			if (table->philos[i]->times_eat
-			< (unsigned int)table->meals_cnt)
-			all_ate_enough = false;
+				< (unsigned int)table->meals_cnt)
+				all_ate_enough = false;
 		pthread_mutex_unlock(&table->philos[i]->meal_time_lock);
 		i++;
 	}

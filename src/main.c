@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:04:21 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/23 19:05:00 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:26:02 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	start_sim(t_table *table)
 	Waits for all threads to be joined then destroys mutexes and frees
 	allocated memory.
 */
-static void stop_sim(t_table *table)
+static void	stop_sim(t_table *table)
 {
 	unsigned int	i;
 
@@ -65,7 +65,7 @@ static void stop_sim(t_table *table)
 	Main function to init all the elements, start the simulation
 	and stop it in right moment.
 */
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_table	*table;
 

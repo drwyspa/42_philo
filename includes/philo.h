@@ -6,7 +6,7 @@
 /*   By: pjedrycz <p.jedryczkowski@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 22:17:29 by pjedrycz          #+#    #+#             */
-/*   Updated: 2024/10/24 21:45:38 by pjedrycz         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:34:23 by pjedrycz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_table
 {
 	time_t			start_time;
 	unsigned int	nb_philos;
-	pthread_t		philo_control;// Main thread - checks if anyone died or all philos ate all the meals.
+	pthread_t		philo_control;
 	time_t			time_to_die;
 	time_t			time_to_eat;
 	time_t			time_to_sleep;
@@ -66,7 +66,7 @@ typedef struct s_table
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	*fork_locks;
 	t_philo			**philos;
-} t_table;
+}	t_table;
 
 typedef struct s_philo
 {
@@ -77,7 +77,7 @@ typedef struct s_philo
 	pthread_mutex_t	meal_time_lock;
 	time_t			last_meal;
 	t_table			*table;
-} t_philo;
+}	t_philo;
 
 //Do I need values here?
 //By default, first one is 0.
@@ -89,10 +89,9 @@ typedef enum e_status
 	THINKING = 3,
 	GOT_FORK_1 = 4,
 	GOT_FORK_2 = 5
-} t_status;
+}	t_status;
 
 // Function prototypes //
-
 
 // Parsing
 int		atoi_int(char *str);
